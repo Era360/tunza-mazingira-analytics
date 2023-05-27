@@ -62,7 +62,9 @@ function App() {
       ],
     };
 
-    setthedata(data);
+    setTimeout(() => {
+      setthedata(data);
+    }, 2000);
   }, []);
 
   // const handleFetching = async () => {
