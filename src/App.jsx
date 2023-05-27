@@ -75,7 +75,7 @@ function App() {
   // };
 
   return (
-    <div className="h-screen bg-tree-700">
+    <div className="flex flex-col items-center justify-center h-screen bg-tree-700">
       <div className="py-10">
         <div className="mx-auto w-fit">
           <img src="/icon.svg" className="h-28" />
