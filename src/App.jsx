@@ -86,7 +86,20 @@ function App() {
       </div>
       <div className="w-2/4 p-10 mx-auto rounded-xl bg-tree-50">
         {thedata.length === 0 ? (
-          <p>loading</p>
+          <div className="flex flex-col items-center justify-center">
+            <svg className="w-8 h-8 animate-spin" viewBox="0 0 24 24">
+              <circle
+                className="stroke-tree-800"
+                cx="12"
+                cy="12"
+                r="10"
+                fill="none"
+                strokeWidth="4"
+                strokeDasharray="30"
+                strokeLinecap="round"
+              />
+            </svg>
+          </div>
         ) : (
           <Bar options={options} data={thedata} />
         )}
