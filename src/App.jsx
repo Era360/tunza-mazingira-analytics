@@ -22,7 +22,7 @@ function App() {
   const options = {
     plugins: {
       title: {
-        display: true,
+        display: false,
         text: "The Graph",
       },
     },
@@ -49,21 +49,29 @@ function App() {
       {
         label: "received",
         data: [10, 15, 8, 12, 7],
-        backgroundColor: "rgba(21, 80, 57, 0.5)", // Customize the color
+        backgroundColor: "rgba(21, 80, 57)", // Customize the color
       },
       {
         label: "Sent",
         data: [5, 12, 10, 8, 6],
-        backgroundColor: "rgba(180, 230, 202, 0.5)", // Customize the color
+        backgroundColor: "rgba(96, 190, 146)", // Customize the color
       },
     ],
   };
 
   return (
-    <div className="container w-3/4 mx-auto">
-      <img src="/icon.svg" className="h-48" />
-      <h2>Bar Graph</h2>
-      <Bar options={options} data={data} />
+    <div className="h-screen bg-tree-700">
+      <div className="py-10">
+        <div className="mx-auto w-fit">
+          <img src="/icon.svg" className="h-28" />
+        </div>
+        <h2 className="text-2xl font-bold text-center text-tree-50">
+          Tunza Mazingira
+        </h2>
+      </div>
+      <div className="w-2/4 p-10 mx-auto rounded-xl bg-tree-50">
+        <Bar options={options} data={data} />
+      </div>
     </div>
   );
 }
