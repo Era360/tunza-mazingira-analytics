@@ -1,35 +1,71 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+import "./App.css";
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 function App() {
-  const [count, setCount] = useState(0)
+  const options = {
+    plugins: {
+      title: {
+        display: true,
+        text: "The Graph",
+      },
+    },
+    responsive: true,
+    scales: {
+      x: {
+        stacked: true,
+      },
+      y: {
+        stacked: true,
+      },
+    },
+  };
+
+  const data = {
+    labels: [
+      "2023-05-01",
+      "2023-05-02",
+      "2023-05-03",
+      "2023-05-04",
+      "2023-05-05",
+    ],
+    datasets: [
+      {
+        label: "received",
+        data: [10, 15, 8, 12, 7],
+        backgroundColor: "rgba(21, 80, 57, 0.5)", // Customize the color
+      },
+      {
+        label: "Sent",
+        data: [5, 12, 10, 8, 6],
+        backgroundColor: "rgba(180, 230, 202, 0.5)", // Customize the color
+      },
+    ],
+  };
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <h2>Bar Graph</h2>
+      <Bar options={options} data={data} />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
