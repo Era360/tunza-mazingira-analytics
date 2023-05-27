@@ -75,8 +75,8 @@ function App() {
   // };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-tree-700">
-      <div className="py-10">
+    <div className="flex flex-col items-center justify-center h-screen gap-8 bg-tree-700">
+      <div className="flex flex-col gap-3">
         <div className="mx-auto w-fit">
           <img src="/icon.svg" className="h-28" />
         </div>
