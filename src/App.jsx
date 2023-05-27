@@ -61,6 +61,7 @@ function App() {
 
   return (
     <div className="container w-3/4 mx-auto">
+      <img src="/icon.svg" className="h-48" />
       <h2>Bar Graph</h2>
       <Bar options={options} data={data} />
     </div>
