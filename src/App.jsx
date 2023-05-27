@@ -8,7 +8,6 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import "./App.css";
 
 ChartJS.register(
   CategoryScale,
@@ -61,10 +60,10 @@ function App() {
   };
 
   return (
-    <>
+    <div className="container w-3/4 mx-auto">
       <h2>Bar Graph</h2>
       <Bar options={options} data={data} />
-    </>
+    </div>
   );
 }
 
