@@ -21,6 +21,28 @@ ChartJS.register(
 
 function App() {
   const [thedata, setthedata] = useState([]);
+  const [fallBackData, setfallBackData] = useState({
+    labels: [
+      "2023-05-01",
+      "2023-05-02",
+      "2023-05-03",
+      "2023-05-04",
+      "2023-05-05",
+    ],
+    datasets: [
+      {
+        label: "received",
+        data: [10, 15, 8, 12, 7],
+        backgroundColor: "rgba(21, 80, 57)", // Customize the color
+      },
+      {
+        label: "Sent",
+        data: [5, 12, 10, 8, 6],
+        backgroundColor: "rgba(96, 190, 146)", // Customize the color
+      },
+    ],
+  });
+  const [fetched, setfetched] = useState(false);
   const options = {
     plugins: {
       title: {
@@ -39,40 +61,85 @@ function App() {
     },
   };
 
+  const transformDataForChart = (data) => {
+    const formattedData = [];
+    for (const date in data) {
+      if (data.hasOwnProperty(date)) {
+        const dataPoint = {
+          date: date["SMSMessageData"]["Message"],
+          sent: data["SMSMessageData"]["Message"]["sent"],
+          received: data["SMSMessageData"]["Message"]["received"],
+        };
+        formattedData.push(dataPoint);
+      }
+    }
+    return formattedData;
+  };
+
   useEffect(() => {
-    const data = {
-      labels: [
-        "2023-05-01",
-        "2023-05-02",
-        "2023-05-03",
-        "2023-05-04",
-        "2023-05-05",
-      ],
-      datasets: [
-        {
-          label: "received",
-          data: [10, 15, 8, 12, 7],
-          backgroundColor: "rgba(21, 80, 57)", // Customize the color
-        },
-        {
-          label: "Sent",
-          data: [5, 12, 10, 8, 6],
-          backgroundColor: "rgba(96, 190, 146)", // Customize the color
-        },
-      ],
+    const handleFetching = async () => {
+      try {
+        let response = await fetch("http://127.0.0.1:5000/informations", {
+          method: "GET",
+        });
+        let the_response = await response.json();
+        const formattedData = transformDataForChart(the_response);
+        console.log(formattedData);
+        setthedata(formattedData);
+        setfetched(true);
+        console.log("success");
+        // setthedata({
+        //   labels: [...Object.keys(the_response)],
+        //   datasets: [
+        //     {
+        //       label: "received",
+        //       data: [10, 15, 8, 12, 7],
+        //       backgroundColor: "rgba(21, 80, 57)", // Customize the color
+        //     },
+        //     {
+        //       label: "Sent",
+        //       data: [5, 12, 10, 8, 6],
+        //       backgroundColor: "rgba(96, 190, 146)", // Customize the color
+        //     },
+        //   ],
+        // })
+      } catch (error) {
+        console.log(error.message);
+        let cachedata = {
+          labels: [
+            "2023-05-01",
+            "2023-05-02",
+            "2023-05-03",
+            "2023-05-04",
+            "2023-05-05",
+          ],
+          datasets: [
+            {
+              label: "received",
+              data: [10, 15, 8, 12, 7],
+              backgroundColor: "rgba(21, 80, 57)", // Customize the color
+            },
+            {
+              label: "Sent",
+              data: [5, 12, 10, 8, 6],
+              backgroundColor: "rgba(96, 190, 146)", // Customize the color
+            },
+          ],
+        };
+        setthedata(cachedata);
+        setfetched(true);
+      }
     };
 
-    setTimeout(() => {
-      setthedata(data);
-    }, 2000);
-  }, []);
+    if (thedata.length === 0 && !fetched) {
+      // handleFetching();
+      console.log("Fetching...");
+    }
 
-  // const handleFetching = async () => {
-  //   let response = await fetch("", {
-  //     method: "GET",
-  //   });
-  //   let the_response = await response.json();
-  // };
+    // setTimeout(() => {
+    //   setthedata(data);
+    // }, 2000);
+  }, []);
 
   return (
     <div className="flex flex-col items-center justify-center h-screen gap-8 bg-tree-700">
@@ -85,7 +152,7 @@ function App() {
         </h2>
       </div>
       <div className="w-2/4 p-10 mx-auto rounded-xl bg-tree-50">
-        {thedata.length === 0 ? (
+        {/* {thedata.length === 0 ? (
           <div className="flex flex-col items-center justify-center">
             <svg className="w-8 h-8 animate-spin" viewBox="0 0 24 24">
               <circle
@@ -101,8 +168,26 @@ function App() {
             </svg>
           </div>
         ) : (
-          <Bar options={options} data={thedata} />
-        )}
+          )} */}
+        <Bar
+          options={options}
+          data={fallBackData}
+          // data={{
+          //   labels: thedata.map((dataPoint) => dataPoint.date),
+          //   datasets: [
+          //     {
+          //       label: "Sent",
+          //       data: thedata.map((dataPoint) => dataPoint.sent),
+          //       backgroundColor: "rgba(75, 192, 192, 0.5)", // Customize the color
+          //     },
+          //     {
+          //       label: "Received",
+          //       data: thedata.map((dataPoint) => dataPoint.received),
+          //       backgroundColor: "rgba(255, 99, 132, 0.5)", // Customize the color
+          //     },
+          //   ],
+          // }}
+        />
       </div>
     </div>
   );
